@@ -1,0 +1,30 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.8.19"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+verbosity = 1
+fuzz = { runs = 256 }
+invariant = { runs = 256, depth = 15 }
+fs_permissions = [{ access = "read", path = "./" }]
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+
+[profile.ci]
+fuzz = { runs = 10000 }
+invariant = { runs = 1000, depth = 20 }
+
+[profile.lite]
+optimizer = false
+fuzz = { runs = 10 }
+invariant = { runs = 10, depth = 5 }
+
+[profile.debug]
+debug = 1
+optimizer = false
+optimizer_runs = 0
+fuzz = { runs = 1 }
+invariant = { runs = 1, depth = 1 }
