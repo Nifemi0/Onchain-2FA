@@ -369,6 +369,7 @@ class TrapAuthenticator {
             console.error('Failed to generate OTP:', error);
             this.showError('Failed to generate OTP: ' + error.message);
         }
+    }
 
     async verifyOnChain() {
         const trapId = document.getElementById('trap-id').value;
