@@ -1,0 +1,1 @@
+require('dotenv').config(); const { ethers } = require('ethers'); console.log(new ethers.Wallet(process.env.ORACLE_PRIVATE_KEY).address);

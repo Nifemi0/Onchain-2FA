@@ -1,0 +1,7 @@
+info: Admin user seeding is handled by the trap-authenticator backend. {"timestamp":"2025-09-25T21:17:56.557Z"}
+info: Oracle API listening on port 4430 {"timestamp":"2025-09-25T21:17:56.562Z"}
+info: Added user test-user-integration {"timestamp":"2025-09-25T21:18:04.080Z"}
+info: Event: VerificationRequested 0x434f2c9664aa608ae1a130d158d1a8fa5a928e5eda5ea6d840260cfaf4ace22d user=test-user-integration {"timestamp":"2025-09-25T21:18:15.502Z"}
+info: Processing request 0x434f2c9664aa608ae1a130d158d1a8fa5a928e5eda5ea6d840260cfaf4ace22d {"timestamp":"2025-09-25T21:18:15.506Z"}
+warn: Submission for request 0x434f2c9664aa608ae1a130d158d1a8fa5a928e5eda5ea6d840260cfaf4ace22d not found yet. Retrying... (attempt 1/10) {"timestamp":"2025-09-25T21:18:15.509Z"}
+info: Stored submission 0x434f2c9664aa608ae1a130d158d1a8fa5a928e5eda5ea6d840260cfaf4ace22d for user test-user-integration {"timestamp":"2025-09-25T21:18:17.016Z"}
