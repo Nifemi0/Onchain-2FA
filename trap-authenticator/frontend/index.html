@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Drosera Trap Authenticator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -211,7 +212,27 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script>
+        // Load local ethers first; fallback to CDN
+        (function() {
+            function inject(src, onload) {
+                var s = document.createElement('script');
+                s.src = src;
+                if (onload) s.onload = onload;
+                document.body.appendChild(s);
+            }
+            var local = 'ethers-5.7.2.umd.min.js';
+            var cdn = 'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js';
+            var triedCDN = false;
+            inject(local);
+            setTimeout(function() {
+                if (typeof window.ethers === 'undefined' && !triedCDN) {
+                    triedCDN = true;
+                    inject(cdn);
+                }
+            }, 500);
+        })();
+    </script>
     <script src="https://unpkg.com/@walletconnect/ethereum-provider@2.11.2/dist/umd/index.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="crypto-utils.js"></script>

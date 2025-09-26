@@ -28,12 +28,24 @@ class TrapAuthenticator {
     }
 
     async init() {
-        this.setupEventListeners();
-        this.loadSettings();
-        this.parseURLParams();
-        await this.initializeProvider();
-        await this.ensureRegistration();
-        this.updateUI();
+        try {
+            console.log('App: init start');
+            this.setupEventListeners();
+            this.loadSettings();
+            this.parseURLParams();
+            await this.initializeProvider();
+            await this.ensureRegistration();
+            this.updateUI();
+            // Autostart for tests if trapId present
+            const trapIdVal = (document.getElementById('trap-id')?.value || '').trim();
+            if (trapIdVal) {
+                console.log('App: autostarting authentication');
+                this.startAuthentication();
+            }
+            console.log('App: init done');
+        } catch (e) {
+            console.error('App: init error', e);
+        }
     }
 
     setupEventListeners() {
