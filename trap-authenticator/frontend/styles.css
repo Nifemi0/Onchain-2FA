@@ -37,8 +37,8 @@
     --text-secondary: #475569;
     --text-muted: #64748b;
     --border-color: #e2e8f0;
-    --accent-color: #7c3aed;
-    --accent-hover: #6d28d9;
+    --accent-color: #f97316;   /* orange-500 */
+    --accent-hover: #ea580c;   /* orange-600 */
     --success-color: #16a34a;
     --warning-color: #d97706;
     --error-color: #dc2626;
