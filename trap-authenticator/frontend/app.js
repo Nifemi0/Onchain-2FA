@@ -21,7 +21,7 @@ class TrapAuthenticator {
             5: 'https://goerli.infura.io/v3/YOUR_INFURA_KEY',
             137: 'https://polygon-rpc.com',
             42161: 'https://arb1.arbitrum.io/rpc',
-            560048: 'https://rpc.hoodi-testnet.example' // placeholder
+            560048: 'https://eth-hoodi.g.alchemy.com/v2/ZETFuZOXiKo3Rg4GKKAyZ'
         };
         
         this.init();
@@ -700,10 +700,29 @@ class TrapAuthenticator {
     }
 }
 
-// Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.trapAuth = new TrapAuthenticator();
+    console.log('App: DOMContentLoaded fired, initializing TrapAuthenticator.');
+    try {
+        window.trapAuth = new TrapAuthenticator();
+        console.log('App: TrapAuthenticator initialized successfully.');
+    } catch (e) {
+        console.error('App: Error initializing TrapAuthenticator:', e);
+    }
 });
+
+// Fallback immediate init
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    setTimeout(() => {
+        if (!window.trapAuth) {
+            try {
+                window.trapAuth = new TrapAuthenticator();
+                console.log('App: Fallback TrapAuthenticator initialized successfully.');
+            } catch (e) {
+                console.error('App: Error initializing TrapAuthenticator via fallback:', e);
+            }
+        }
+    }, 0);
+}
 
 // Add CSS animations for notifications
 const style = document.createElement('style');
@@ -718,7 +737,7 @@ style.textContent = `
             opacity: 1;
         }
     }
-    
+
     @keyframes slideOut {
         from {
             transform: translateX(0);
