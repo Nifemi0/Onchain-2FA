@@ -11,8 +11,8 @@
   "license": "ISC",
   "workspaces": [
     "frontend",
-    "backend/oracle",
-    "backend/trap-authenticator",
+    "backend",
+    "oracle",
     "misc/e2e-tests",
     "misc/sandbox"
   ]
