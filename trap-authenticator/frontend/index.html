@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drosera Trap Authenticator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>Drosera</h1>
+                <span class="nav-subtitle">Trap Authenticator</span>
+            </div>
+            <div class="nav-controls">
+                <button id="connect-wallet" class="btn-outline" aria-label="Connect wallet">Connect Wallet</button>
+                <span id="wallet-address" class="nav-subtitle" style="margin-left: 0.75rem; display:none;"></span>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" aria-live="polite">
+        <div class="container">
+            <!-- Header Section -->
+            <header class="header">
+                <h2 class="header-title">Trap-Driven Authentication</h2>
+                <p class="header-subtitle">Generate secure codes based on on-chain trap signals</p>
+            </header>
+
+            <!-- Tabs -->
+            <div class="action-buttons" role="tablist" aria-label="Primary Tabs">
+                <button id="tab-auth" class="btn-primary" role="tab" aria-selected="true">Auth</button>
+                <button id="tab-verify" class="btn-secondary" role="tab" aria-selected="false">Verify</button>
+            </div>
+
+            <!-- Status Dashboard -->
+            <div class="status-dashboard">
+                <div class="status-card">
+                    <div class="status-label">Trap Status</div>
+                    <div id="trap-status" class="status-indicator">
+                        <div class="status-dot"></div>
+                        <span class="status-text">Checking...</span>
+                    </div>
+                </div>
+                <div class="status-card">
+                    <div class="status-label">Block Number</div>
+                    <div id="block-number" class="status-value">--</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-label">Chain</div>
+                    <div id="chain-info" class="status-value">--</div>
+                </div>
+            </div>
+
+            <!-- AUTH TAB CONTENT -->
+            <div id="auth-tab" class="otp-section">
+                <div class="otp-container" role="region" aria-label="One-time code">
+                    <div class="otp-label">Your Code</div>
+                    <div id="otp-display" class="otp-code" aria-live="assertive">------</div>
+                    <div class="otp-actions" style="margin-bottom: 1rem;">
+                        <button id="copy-code" class="btn-outline" aria-label="Copy code to clipboard">Copy code</button>
+                    </div>
+                    <div class="otp-timer" role="timer" aria-live="polite">
+                        <div class="timer-bar">
+                            <div id="timer-progress" class="timer-progress"></div>
+                        </div>
+                        <span id="timer-text" class="timer-text">60s</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VERIFY TAB CONTENT -->
+            <div id="verify-tab" class="config-panel hidden">
+                <div class="config-section">
+                    <h3 class="config-title">Verify Code</h3>
+                    <div class="input-group">
+                        <label for="verify-code">Enter Code</label>
+                        <input type="text" id="verify-code" inputmode="numeric" maxlength="6" placeholder="000000">
+                    </div>
+                    <button id="btn-verify" class="btn-primary">Verify</button>
+                    <div id="verify-result" class="test-status" style="margin-top:1rem;"></div>
+                    <div id="verify-meta" class="status-label" style="margin-top:0.5rem;"></div>
+                </div>
+            </div>
+
+            <!-- Configuration Panel (Advanced) -->
+            <div class="action-buttons" style="margin-top: -1rem; margin-bottom: 1rem;">
+                <button id="toggle-advanced" class="btn-outline" aria-expanded="false">Advanced Settings</button>
+            </div>
+            <div id="advanced-panel" class="config-panel hidden" aria-hidden="true">
+                <div class="config-section">
+                    <h3 class="config-title">Trap Configuration</h3>
+                    <div class="input-group">
+                        <label for="trap-id">Trap Contract Address</label>
+                        <input type="text" id="trap-id" placeholder="0x..." value="">
+                    </div>
+                    <div class="input-group">
+                        <label for="chain-id">Chain ID</label>
+                        <select id="chain-id" aria-label="Select chain">
+                            <option value="1">Ethereum Mainnet</option>
+                            <option value="5">Goerli Testnet</option>
+                            <option value="137">Polygon</option>
+                            <option value="42161">Arbitrum</option>
+                            <option value="560048">Hoodi Testnet</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="rpc-url">RPC URL</label>
+                        <input type="text" id="rpc-url" placeholder="https://..." value="" aria-describedby="rpc-help">
+                        <small id="rpc-help" class="text-muted">Provide a public RPC for the selected chain.</small>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Authentication</h3>
+                    <div class="input-group">
+                        <label for="seed-input">Seed Phrase</label>
+                        <div class="seed-container">
+                            <input type="password" id="seed-input" placeholder="Enter your seed phrase">
+                            <button id="generate-seed" class="btn-secondary">Generate</button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="interval">Update Interval (seconds)</label>
+                        <input type="number" id="interval" value="30" min="10" max="300">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button id="start-auth" class="btn-primary">Start Authentication</button>
+                <button id="test-code" class="btn-secondary">Test Code</button>
+                <button id="export-seed" class="btn-outline">Export Seed</button>
+            </div>
+
+            <!-- Test Results -->
+            <div id="test-results" class="test-results hidden">
+                <h3>Verification Results</h3>
+                <div id="test-status" class="test-status"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Info -->
+    <footer class="text-center" style="margin: 2rem 0; color: var(--text-muted); font-size: 0.9rem;">
+        <span>Trap: <code id="footer-trap">—</code></span>
+        <span style="margin: 0 0.75rem;">•</span>
+        <span>Chain ID: <code id="footer-chain">—</code></span>
+    </footer>
+
+    <!-- Wallet Connect Modal -->
+    <div id="wallet-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="wallet-modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="wallet-modal-title">Connect Wallet</h3>
+                <button id="close-wallet-modal" class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <button id="btn-mm" class="btn-primary" style="width:100%">MetaMask</button>
+                </div>
+                <div class="input-group">
+                    <button id="btn-coinbase" class="btn-secondary" style="width:100%">Coinbase Wallet</button>
+                </div>
+                <div class="input-group">
+                    <button id="btn-trust" class="btn-secondary" style="width:100%">Trust Wallet</button>
+                </div>
+                <div class="input-group">
+                    <button id="btn-rainbow" class="btn-secondary" style="width:100%">Rainbow</button>
+                </div>
+                <div class="input-group">
+                    <button id="btn-rabby" class="btn-secondary" style="width:100%">Rabby</button>
+                </div>
+                <div class="input-group">
+                    <button id="btn-wc" class="btn-outline" style="width:100%">WalletConnect</button>
+                    <small class="text-muted">Requires WalletConnect projectId</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qr-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Backup Seed</h3>
+                <button id="close-qr" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="qr-code" class="qr-container"></div>
+                <div class="seed-display">
+                    <label>Your Seed:</label>
+                    <textarea id="seed-display" readonly></textarea>
+                </div>
+                <button id="copy-seed" class="btn-primary">Copy Seed</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Load local ethers first; fallback to CDN
+        (function() {
+            function inject(src, onload) {
+                var s = document.createElement('script');
+                s.src = src;
+                if (onload) s.onload = onload;
+                document.body.appendChild(s);
+            }
+            var local = 'ethers-5.7.2.umd.min.js';
+            var cdn = 'https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js';
+            var triedCDN = false;
+            inject(local);
+            setTimeout(function() {
+                if (typeof window.ethers === 'undefined' && !triedCDN) {
+                    triedCDN = true;
+                    inject(cdn);
+                }
+            }, 500);
+        })();
+    </script>
+    <script src="https://unpkg.com/@walletconnect/ethereum-provider@2.11.2/dist/umd/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="crypto-utils.js"></script>
+    <script src="app.js?v=2"></script>
+</body>
+</html>
+
+
+
+
