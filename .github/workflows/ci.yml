@@ -1,0 +1,45 @@
+name: CI/CD
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install Frontend Dependencies
+      run: npm install --prefix frontend
+
+    - name: Build Frontend
+      run: npm run build --prefix frontend
+
+    - name: Install Backend Dependencies
+      run: npm install --prefix backend
+
+    - name: Test Backend
+      run: npm test --prefix backend
+
+    - name: Install Oracle Dependencies
+      run: npm install --prefix oracle
+
+    - name: Test Oracle
+      run: npm test --prefix oracle
+
+    - name: Setup Foundry
+      uses: foundry-rs/foundry-toolchain@v1
+      with:
+        version: latest
+
+    - name: Build Contracts
+      run: forge build --root contracts
+
+    - name: Test Contracts
+      run: forge test --root contracts

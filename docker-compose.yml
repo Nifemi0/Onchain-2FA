@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:3001/api
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - CORS_ORIGIN=http://localhost:3000
+      - MASTER_ENC_KEY=${BACKEND_MASTER_ENC_KEY}
+      - RPC_URL=${BACKEND_RPC_URL}
+      - VERIFIER_ADDRESS=${BACKEND_VERIFIER_ADDRESS}
+      - BACKEND_PRIVATE_KEY=${BACKEND_PRIVATE_KEY}
+      - EXPIRY_SECONDS=${BACKEND_EXPIRY_SECONDS}
+    depends_on:
+      - oracle
+
+  oracle:
+    build:
+      context: ./oracle
+      dockerfile: Dockerfile
+    ports:
+      - "4430:4430"
+    environment:
+      - PROVIDER_URL=${ORACLE_PROVIDER_URL}
+      - ORACLE_PRIVATE_KEY=${ORACLE_PRIVATE_KEY}
+      - VERIFIER_CONTRACT_ADDRESS=${ORACLE_VERIFIER_CONTRACT_ADDRESS}
+      - VERIFIER_ABI_PATH=./verifier_abi.json
+      - MASTER_ENC_KEY=${ORACLE_MASTER_ENC_KEY}
+      - API_HMAC_KEY=${ORACLE_API_HMAC_KEY}
+      - PORT=4430
+      - RATE_LIMIT_WINDOW_MS=${ORACLE_RATE_LIMIT_WINDOW_MS}
+      - RATE_LIMIT_MAX=${ORACLE_RATE_LIMIT_MAX}
+      - GAS_PRICE_GWEI=${ORACLE_GAS_PRICE_GWEI}
+      - GAS_LIMIT=${ORACLE_GAS_LIMIT}
+
