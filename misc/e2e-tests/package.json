@@ -1,0 +1,20 @@
+{
+  "name": "onchain-2fa-e2e-tests",
+  "version": "1.0.0",
+  "description": "End-to-end tests for Onchain 2FA integration",
+  "main": "e2e-test.js",
+  "scripts": {
+    "test": "mocha e2e-test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "puppeteer": "^22.0.0",
+    "chai": "^4.3.7",
+    "ethers": "^5.7.2",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  }
+}

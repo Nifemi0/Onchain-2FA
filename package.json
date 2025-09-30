@@ -1,0 +1,19 @@
+{
+  "name": "onchain-2fa-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo for Onchain 2FA project (frontend, backend, contracts)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "frontend",
+    "backend/oracle",
+    "backend/trap-authenticator",
+    "misc/e2e-tests",
+    "misc/sandbox"
+  ]
+}
