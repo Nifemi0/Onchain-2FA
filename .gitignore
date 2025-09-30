@@ -20,5 +20,8 @@ Cargo.lock
 
 bridges/nomad/lib/
 
+onchain_2fa_backup_no_modules.tar.gz
+onchain_2fa_backup.tar.gz
+
 # Local Netlify folder
 .netlify
