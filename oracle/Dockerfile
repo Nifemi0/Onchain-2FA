@@ -4,10 +4,16 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
+# Install Python3, make, and g++ for node-gyp compilation
+RUN apk add --no-cache python3 make g++
+
+# Set Python as the default for node-gyp
+ENV NPM_CONFIG_PYTHON=/usr/bin/python3
+
 # Copy package.json and install dependencies
 COPY package.json ./oracle/package.json
 COPY package-lock.json ./oracle/package-lock.json
-RUN npm install --prefix ./oracle
+RUN rm -rf ./oracle/node_modules && npm install --prefix ./oracle
 
 # Copy the rest of the oracle code
 COPY . /app/oracle
