@@ -4,7 +4,8 @@
   "description": "Monorepo for Onchain 2FA project (frontend, backend, contracts)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build -w frontend"
   },
   "keywords": [],
   "author": "",
