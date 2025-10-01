@@ -3,7 +3,7 @@
 import React from 'react';
 import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { config } from '../wagmi';
+import { config } from '../../wagmi';
 
 const queryClient = new QueryClient();
 

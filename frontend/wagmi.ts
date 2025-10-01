@@ -10,7 +10,7 @@ export const config = createConfig({
     walletConnect({ projectId: process.env.NEXT_PUBLIC_WC_PROJECT_ID || '' }),
   ],
   transports: {
-    mainnet: http(),
-    sepolia: http(),
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
   },
 });
