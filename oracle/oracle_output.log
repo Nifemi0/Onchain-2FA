@@ -4,3 +4,21 @@
 
 info: Admin user seeding is handled by the trap-authenticator backend. {"timestamp":"2025-09-30T11:56:32.087Z"}
 info: Oracle API listening on port 3000 {"timestamp":"2025-09-30T11:56:32.097Z"}
+@TODO Error: server response 520  (request={  }, response={  }, error=null, info={ "requestUrl": "https://eth-hoodi.g.alchemy.com/v2/ZETFuZOXiKo3Rg4GKKAyZ", "responseBody": "error code: 520", "responseStatus": "520 " }, code=SERVER_ERROR, version=6.15.0)
+    at makeError (/root/onchain-2fa/onchain 2fa/onchain-2fa-repo/oracle/node_modules/ethers/lib.commonjs/utils/errors.js:137:21)
+    at assert (/root/onchain-2fa/onchain 2fa/onchain-2fa-repo/oracle/node_modules/ethers/lib.commonjs/utils/errors.js:157:15)
+    at FetchResponse.assertOk (/root/onchain-2fa/onchain 2fa/onchain-2fa-repo/oracle/node_modules/ethers/lib.commonjs/utils/fetch.js:839:32)
+    at JsonRpcProvider._send (/root/onchain-2fa/onchain 2fa/onchain-2fa-repo/oracle/node_modules/ethers/lib.commonjs/providers/provider-jsonrpc.js:917:18)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async /root/onchain-2fa/onchain 2fa/onchain-2fa-repo/oracle/node_modules/ethers/lib.commonjs/providers/provider-jsonrpc.js:281:40 {
+  code: 'SERVER_ERROR',
+  request: FetchRequest {},
+  response: FetchResponse {},
+  error: undefined,
+  info: {
+    requestUrl: 'https://eth-hoodi.g.alchemy.com/v2/ZETFuZOXiKo3Rg4GKKAyZ',
+    responseBody: 'error code: 520',
+    responseStatus: '520 '
+  },
+  shortMessage: 'server response 520 '
+}
